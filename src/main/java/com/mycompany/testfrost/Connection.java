@@ -68,15 +68,16 @@ public class Connection {
 		while (iThings.hasNext()) {
 		    Thing selectedThing = iThings.next();
 		    
-		    EntityList<Location> thingLoc = selectedThing.getLocations();
-		    		    
-		    if(!thingLoc.isEmpty()) {
-		    	Iterator<Location> locations = selectedThing.getLocations().fullIterator();
-		    	
+		    EntityList<Location> thingLoc = selectedThing.locations().query().list();
+		    		    		    
+		    Iterator<Location> locations = thingLoc.fullIterator();
+		    
+		    while(locations.hasNext()) {
 		    	Location lastLoc = locations.next();
 		    	
-		    	 lastLocations.add(lastLoc);
-		    }    		   
+		    	lastLocations.add(lastLoc);
+		    }
+		    
 		}
     	
     	return lastLocations;

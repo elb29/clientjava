@@ -6,6 +6,7 @@
 package com.mycompany.testfrost;
 
 import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
+import de.fraunhofer.iosb.ilt.sta.model.Location;
 import de.fraunhofer.iosb.ilt.sta.model.Thing;
 import de.fraunhofer.iosb.ilt.sta.model.ext.EntityList;
 
@@ -47,8 +48,16 @@ public class Main {
     		  public void actionPerformed(ActionEvent e) { 
     			    try {
 						Connection staConn = new Connection(urlText.getText());
+
+						Iterator<Location> locations = staConn.getlastLocations().fullIterator();
 						
-						System.out.println(staConn.getlastLocations());
+						System.out.println(locations);
+						while(locations.hasNext()) {
+							Location loc = locations.next();
+							
+							System.out.println(loc.getName() + loc.getLocation());
+						}
+						
 						
 				    } catch (MalformedURLException | ServiceFailureException e1) {
 						// TODO Auto-generated catch block
@@ -62,7 +71,7 @@ public class Main {
     	f.setSize(400,500);//400 width and 500 height  
     	f.setLayout(null);//using no layout managers  
     	f.setVisible(true);//making the frame visible  
-    	     
+    	      
     
 
     }
