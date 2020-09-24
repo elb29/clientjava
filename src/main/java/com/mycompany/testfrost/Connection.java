@@ -24,7 +24,8 @@ import java.util.logging.Logger;
  * @author elebihan
  */
 public class Connection {
-    private URL url ;
+    
+	private URL url ;
     private SensorThingsService service;
     
     
@@ -41,6 +42,10 @@ public class Connection {
         }
     }
     
+    public void setUrl(URL url) {
+		this.url = url;
+	}
+   
     public SensorThingsService getService(){
         return service;
     }

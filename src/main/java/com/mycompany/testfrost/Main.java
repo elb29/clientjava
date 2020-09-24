@@ -36,7 +36,7 @@ public class Main {
     	f.add(l1);
     	
     	
-    	JTextField urlText=new JTextField();  
+    	JTextField urlText=new JTextField("http://visi-sxt-docker.ifremer.fr:8181/FROST-Server/v1.0");  
         urlText.setBounds(130,100, 150,20); 
         f.add(urlText);
         
@@ -48,7 +48,7 @@ public class Main {
     			    try {
 						Connection staConn = new Connection(urlText.getText());
 						
-						staConn.getlastLocations();
+						System.out.println(staConn.getlastLocations());
 						
 				    } catch (MalformedURLException | ServiceFailureException e1) {
 						// TODO Auto-generated catch block
