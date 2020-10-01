@@ -18,10 +18,11 @@ import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
 
 import de.fraunhofer.iosb.ilt.sta.model.Location;
+import de.fraunhofer.iosb.ilt.sta.model.ext.EntityList;
 
 public class ThingsMap {
 	
-	private Iterator<Location> locations;
+	private EntityList<Location> locations;
 	
 	public ThingsMap() {
 		
@@ -30,7 +31,7 @@ public class ThingsMap {
 	}
 	
 	
-	public ThingsMap(Iterator<Location> loc) {
+	public ThingsMap(EntityList<Location> loc) {
 		
 		setLocations(loc);
 		
@@ -40,12 +41,12 @@ public class ThingsMap {
 	
 	
 	
-	public Iterator<Location> getLocations() {
+	public EntityList<Location> getLocations() {
 		return locations;
 	}
 
 
-	public void setLocations(Iterator<Location> locations) {
+	public void setLocations(EntityList<Location> locations) {
 		this.locations = locations;
 	}
 	
@@ -55,17 +56,27 @@ public class ThingsMap {
 	    TileFactoryInfo info = new OSMTileFactoryInfo();
 	    DefaultTileFactory tileFactory = new DefaultTileFactory(info);
 	    jXMapKit.setTileFactory(tileFactory);
+	    
+	    final GeoPosition mappos = new GeoPosition(48.2, -4); 
 	
 	    //location of Java
-	    final GeoPosition gp = new GeoPosition(48.2, -4); 
-	
-	    final JToolTip tooltip = new JToolTip();
-	    tooltip.setTipText("Java");
-	    tooltip.setComponent(jXMapKit.getMainMap());
-	    jXMapKit.getMainMap().add(tooltip);
+	    Iterator<Location> locIterator = locations.fullIterator();
+	    while(locIterator.hasNext()) {
+			Location loc = locIterator.next();
+			
+			System.out.println(loc.getName() + loc.getLocation());
+			
+			final GeoPosition gp = new GeoPosition(48.2, -4); 
+			
+		    final JToolTip tooltip = new JToolTip();
+		    tooltip.setTipText("Java");
+		    tooltip.setComponent(jXMapKit.getMainMap());
+		    jXMapKit.getMainMap().add(tooltip);
+		}
+	    
 	
 	    jXMapKit.setZoom(11);
-	    jXMapKit.setAddressLocation(gp);
+	    jXMapKit.setAddressLocation(mappos);
 	
 	    jXMapKit.getMainMap().addMouseMotionListener(new MouseMotionListener() {
 	        @Override

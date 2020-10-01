@@ -48,17 +48,19 @@ public class Main {
     		  public void actionPerformed(ActionEvent e) { 
     			    try {
 						Connection staConn = new Connection(urlText.getText());
+						
+						EntityList<Location> locations = staConn.getlastLocations();
 
-						Iterator<Location> locations = staConn.getlastLocations().fullIterator();
+						Iterator<Location> locationsIterator = locations.fullIterator();
 						
 						System.out.println(locations);
-						while(locations.hasNext()) {
-							Location loc = locations.next();
+						while(locationsIterator.hasNext()) {
+							Location loc = locationsIterator.next();
 							
 							System.out.println(loc.getName() + loc.getLocation());
 						}
 						
-						ThingsMap map = new ThingsMap();						
+						ThingsMap map = new ThingsMap(locations);						
 						
 				    } catch (MalformedURLException | ServiceFailureException e1) {
 						// TODO Auto-generated catch block
