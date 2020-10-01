@@ -58,6 +58,7 @@ public class Main {
 							System.out.println(loc.getName() + loc.getLocation());
 						}
 						
+						ThingsMap map = new ThingsMap();						
 						
 				    } catch (MalformedURLException | ServiceFailureException e1) {
 						// TODO Auto-generated catch block
