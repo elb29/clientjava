@@ -50,16 +50,7 @@ public class Main {
 						Connection staConn = new Connection(urlText.getText());
 						
 						EntityList<Location> locations = staConn.getlastLocations();
-
-						Iterator<Location> locationsIterator = locations.fullIterator();
-						
-						System.out.println(locations);
-						while(locationsIterator.hasNext()) {
-							Location loc = locationsIterator.next();
-							
-							System.out.println(loc.getName() + loc.getLocation());
-						}
-						
+					
 						ThingsMap map = new ThingsMap(locations);						
 						
 				    } catch (MalformedURLException | ServiceFailureException e1) {

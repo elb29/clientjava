@@ -17,6 +17,8 @@ import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
 
+import com.google.gson.JsonObject;
+
 import de.fraunhofer.iosb.ilt.sta.model.Location;
 import de.fraunhofer.iosb.ilt.sta.model.ext.EntityList;
 
@@ -64,15 +66,19 @@ public class ThingsMap {
 	    while(locIterator.hasNext()) {
 			Location loc = locIterator.next();
 			
-			System.out.println(loc.getName() + loc.getLocation());
+			Object objLoc = loc.getLocation();
+			
+			//JsonObject jsonLoc = (JsonObject) objLoc;
+			
+			System.out.println(objLoc);
 			
 			final GeoPosition gp = new GeoPosition(48.2, -4); 
 			
 		    final JToolTip tooltip = new JToolTip();
-		    tooltip.setTipText("Java");
+		    tooltip.setTipText("oui");
 		    tooltip.setComponent(jXMapKit.getMainMap());
 		    jXMapKit.getMainMap().add(tooltip);
-		}
+		} 
 	    
 	
 	    jXMapKit.setZoom(11);
@@ -90,7 +96,7 @@ public class ThingsMap {
 	            JXMapViewer map = jXMapKit.getMainMap();
 	
 	            // convert to world bitmap
-	            Point2D worldPos = map.getTileFactory().geoToPixel(gp, map.getZoom());
+	            Point2D worldPos = map.getTileFactory().geoToPixel(mappos, map.getZoom());
 	
 	            // convert to screen
 	            Rectangle rect = map.getViewportBounds();
@@ -101,14 +107,14 @@ public class ThingsMap {
 	            // check if near the mouse
 	            if (screenPos.distance(e.getPoint()) < 20)
 	            {
-	                screenPos.x -= tooltip.getWidth() / 2;
+	                //screenPos.x -= tooltip.getWidth() / 2;
 	
-	                tooltip.setLocation(screenPos);
-	                tooltip.setVisible(true);
+	                //tooltip.setLocation(screenPos);
+	                //tooltip.setVisible(true);
 	            }
 	            else
 	            {
-	                tooltip.setVisible(false);
+	                //tooltip.setVisible(false);
 	            }
 	        }
 	    });
