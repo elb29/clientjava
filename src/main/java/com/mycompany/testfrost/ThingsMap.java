@@ -53,13 +53,15 @@ public class ThingsMap {
 	}
 	
 	
-	public void createLocationToolTip(JXMapKit map, Object location) {
+	public void createLocationToolTip(JXMapKit map, Location loc) {
+		Object location = loc.getLocation();
+		
 		System.out.println(location.toString());
 		
 		final GeoPosition gp = new GeoPosition(48, -3.7); 
 		map.setAddressLocation(gp);
 		
-	    final JToolTip tooltip = new JToolTip();
+	    final LocationTooltip tooltip = new LocationTooltip(loc);
 	    tooltip.setTipText("oui");
 	    tooltip.setComponent(map.getMainMap());
 	    map.getMainMap().add(tooltip);
@@ -114,11 +116,11 @@ public class ThingsMap {
 	    while(locIterator.hasNext()) {
 			Location loc = locIterator.next();
 			
-			Object objLoc = loc.getLocation();
+			
 			
 			//JsonObject jsonLoc = (JsonObject) objLoc;
 			
-			createLocationToolTip(jXMapKit,objLoc);
+			createLocationToolTip(jXMapKit,loc);
 		    
 		} 
 	    
