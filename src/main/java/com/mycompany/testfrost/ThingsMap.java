@@ -52,6 +52,54 @@ public class ThingsMap {
 		this.locations = locations;
 	}
 	
+	
+	public void createLocationToolTip(JXMapKit map, Object location) {
+		System.out.println(location.toString());
+		
+		final GeoPosition gp = new GeoPosition(48, -3.7); 
+		map.setAddressLocation(gp);
+		
+	    final JToolTip tooltip = new JToolTip();
+	    tooltip.setTipText("oui");
+	    tooltip.setComponent(map.getMainMap());
+	    map.getMainMap().add(tooltip);
+	    
+	    map.getMainMap().addMouseMotionListener(new MouseMotionListener() {
+	        @Override
+	        public void mouseDragged(MouseEvent e) { 
+	            // ignore
+	        }
+	
+	        @Override
+	        public void mouseMoved(MouseEvent e)
+	        {
+	            JXMapViewer mapV = map.getMainMap();
+	
+	            // convert to world bitmap
+	            Point2D worldPos = mapV.getTileFactory().geoToPixel(gp, mapV.getZoom());
+	
+	            // convert to screen
+	            Rectangle rect = mapV.getViewportBounds();
+	            int sx = (int) worldPos.getX() - rect.x;
+	            int sy = (int) worldPos.getY() - rect.y;
+	            Point screenPos = new Point(sx, sy);
+	
+	            // check if near the mouse
+	            if (screenPos.distance(e.getPoint()) < 20)
+	            {
+	                screenPos.x -= tooltip.getWidth() / 2;
+	
+	                tooltip.setLocation(screenPos);
+	                tooltip.setVisible(true);
+	            }
+	            else
+	            {
+	                tooltip.setVisible(false);
+	            }
+	        }
+	    });		
+	}
+	
 	public void displayMap() {
 		
 		final JXMapKit jXMapKit = new JXMapKit();
@@ -70,54 +118,15 @@ public class ThingsMap {
 			
 			//JsonObject jsonLoc = (JsonObject) objLoc;
 			
-			System.out.println(objLoc);
-			
-			final GeoPosition gp = new GeoPosition(48.2, -4); 
-			
-		    final JToolTip tooltip = new JToolTip();
-		    tooltip.setTipText("oui");
-		    tooltip.setComponent(jXMapKit.getMainMap());
-		    jXMapKit.getMainMap().add(tooltip);
+			createLocationToolTip(jXMapKit,objLoc);
+		    
 		} 
 	    
 	
 	    jXMapKit.setZoom(11);
-	    jXMapKit.setAddressLocation(mappos);
+	    
 	
-	    jXMapKit.getMainMap().addMouseMotionListener(new MouseMotionListener() {
-	        @Override
-	        public void mouseDragged(MouseEvent e) { 
-	            // ignore
-	        }
-	
-	        @Override
-	        public void mouseMoved(MouseEvent e)
-	        {
-	            JXMapViewer map = jXMapKit.getMainMap();
-	
-	            // convert to world bitmap
-	            Point2D worldPos = map.getTileFactory().geoToPixel(mappos, map.getZoom());
-	
-	            // convert to screen
-	            Rectangle rect = map.getViewportBounds();
-	            int sx = (int) worldPos.getX() - rect.x;
-	            int sy = (int) worldPos.getY() - rect.y;
-	            Point screenPos = new Point(sx, sy);
-	
-	            // check if near the mouse
-	            if (screenPos.distance(e.getPoint()) < 20)
-	            {
-	                //screenPos.x -= tooltip.getWidth() / 2;
-	
-	                //tooltip.setLocation(screenPos);
-	                //tooltip.setVisible(true);
-	            }
-	            else
-	            {
-	                //tooltip.setVisible(false);
-	            }
-	        }
-	    });
+	    
 	
 	    // Display the viewer in a JFrame
 	    JFrame frame = new JFrame("JXMapviewer2 Example 6");
