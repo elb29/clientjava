@@ -172,13 +172,10 @@ public class ThingsMap {
 		                while(iThg.hasNext()) {
 		                	Thing thing = iThg.next();
 		                	
-		                	EntityList<Datastream> ds = thing.getDatastreams();
-		                	
-		                	
-		                	
+		                	GraphiquesScreen graphScr = new GraphiquesScreen(thing);
 		                }
 		                	                
-		                //GraphiquesScreen graphScr = new GraphiquesScreen();	
+		                
 					} catch (ServiceFailureException | InvalidRelationException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -264,7 +261,6 @@ public class ThingsMap {
 	    JFrame frame = new JFrame("Locations Map");
 	    frame.getContentPane().add(jXMapKit);
 	    frame.setSize(800, 600);
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.setVisible(true);
 	
 	}
