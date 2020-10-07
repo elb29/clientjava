@@ -51,7 +51,7 @@ public class Main {
 						
 						EntityList<Location> locations = staConn.getlastLocations();
 					
-						ThingsMap map = new ThingsMap(locations);						
+						ThingsMap map = new ThingsMap(locations,staConn);						
 						
 				    } catch (MalformedURLException | ServiceFailureException e1) {
 						// TODO Auto-generated catch block

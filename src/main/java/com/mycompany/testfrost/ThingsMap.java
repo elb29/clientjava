@@ -32,13 +32,31 @@ import org.jxmapviewer.viewer.TileFactoryInfo;
 
 import com.google.gson.JsonObject;
 
+import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
+import de.fraunhofer.iosb.ilt.sta.model.Datastream;
+import de.fraunhofer.iosb.ilt.sta.model.EntityType;
 import de.fraunhofer.iosb.ilt.sta.model.Location;
+import de.fraunhofer.iosb.ilt.sta.model.Thing;
 import de.fraunhofer.iosb.ilt.sta.model.ext.EntityList;
+import de.fraunhofer.iosb.ilt.sta.query.ExpandedEntity;
+import de.fraunhofer.iosb.ilt.sta.query.Expansion;
+import de.fraunhofer.iosb.ilt.sta.query.InvalidRelationException;
 
 public class ThingsMap {
 	
 	private EntityList<Location> locations;
+	private Connection connection;
 	
+	public Connection getConnection() {
+		return connection;
+	}
+
+
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
+
+
 	public ThingsMap() {
 		
 		displayMap();
@@ -46,9 +64,10 @@ public class ThingsMap {
 	}
 	
 	
-	public ThingsMap(EntityList<Location> loc) {
+	public ThingsMap(EntityList<Location> loc, Connection conn) {
 		
 		setLocations(loc);
+		setConnection(conn);
 		
 		displayMap();
 
@@ -71,11 +90,11 @@ public class ThingsMap {
 		
 		System.out.println(location.toString());
 		
-		final GeoPosition gp = new GeoPosition(ThreadLocalRandom.current().nextInt(0,101), ThreadLocalRandom.current().nextInt(0,101)); 
+		final GeoPosition gp = new GeoPosition(ThreadLocalRandom.current().nextInt(-50,50), ThreadLocalRandom.current().nextInt(-50,50)); 
 		
 			
 	    final LocationTooltip tooltip = new LocationTooltip(loc);
-	    tooltip.setTipText("oui");
+	    tooltip.setTipText(loc.getName());
 	    tooltip.setComponent(map.getMainMap());
 	    
 	    map.getMainMap().add(tooltip);
@@ -136,10 +155,35 @@ public class ThingsMap {
 	            {
 	                screenPos.x -= tooltip.getWidth() / 2;
 	
-	                //creation fenetre de grpahiques
+	                //creation fenetre de graphiques
 	                
 	                
-	                //GraphiquesScreen graphScr = new GraphiquesScreen();	                
+	                
+	                EntityList<Thing> things;
+	                try {
+						things = connection.getService().things().query()
+																.filter("name eq '"+loc.getName()+"'")
+																.expand(Expansion.of(EntityType.THING)
+														                .with(ExpandedEntity.from(EntityType.DATASTREAMS)))
+																.list();
+						
+						Iterator<Thing> iThg = things.fullIterator();
+		                
+		                while(iThg.hasNext()) {
+		                	Thing thing = iThg.next();
+		                	
+		                	EntityList<Datastream> ds = thing.getDatastreams();
+		                	
+		                	
+		                	
+		                }
+		                	                
+		                //GraphiquesScreen graphScr = new GraphiquesScreen();	
+					} catch (ServiceFailureException | InvalidRelationException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+	                                
 	            }
 	            else
 	            {
@@ -196,7 +240,6 @@ public class ThingsMap {
 			GeoPosition gp = createLocationToolTip(jXMapKit,loc);
 			
 			listWaypoints.add(new DefaultWaypoint(gp));
-			
 		}
 	    
 	    Set<Waypoint> waypoints = new HashSet<Waypoint>(listWaypoints);
