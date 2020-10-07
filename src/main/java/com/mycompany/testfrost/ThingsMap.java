@@ -172,7 +172,7 @@ public class ThingsMap {
 		                while(iThg.hasNext()) {
 		                	Thing thing = iThg.next();
 		                	
-		                	GraphiquesScreen graphScr = new GraphiquesScreen(thing);
+		                	GraphiquesScreen graphScr = new GraphiquesScreen(thing,connection);
 		                }
 		                	                
 		                
