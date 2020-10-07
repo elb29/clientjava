@@ -1,12 +1,19 @@
 package com.mycompany.testfrost;
 
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
+
+import java.util.List;
+import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.JFrame;
 import javax.swing.JToolTip;
@@ -14,7 +21,12 @@ import javax.swing.JToolTip;
 import org.jxmapviewer.JXMapKit;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
+import org.jxmapviewer.painter.CompoundPainter;
+import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.DefaultTileFactory;
+import org.jxmapviewer.viewer.DefaultWaypoint;
+import org.jxmapviewer.viewer.Waypoint;
+import org.jxmapviewer.viewer.WaypointPainter;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
 
@@ -54,14 +66,14 @@ public class ThingsMap {
 	}
 	
 	
-	public void createLocationToolTip(JXMapKit map, Location loc) {
+	public GeoPosition createLocationToolTip(JXMapKit map, Location loc) {
 		Object location = loc.getLocation();
 		
 		System.out.println(location.toString());
 		
-		final GeoPosition gp = new GeoPosition(48, -3.7); 
-		map.setAddressLocation(gp);
+		final GeoPosition gp = new GeoPosition(ThreadLocalRandom.current().nextInt(0,101), ThreadLocalRandom.current().nextInt(0,101)); 
 		
+			
 	    final LocationTooltip tooltip = new LocationTooltip(loc);
 	    tooltip.setTipText("oui");
 	    tooltip.setComponent(map.getMainMap());
@@ -101,7 +113,7 @@ public class ThingsMap {
 	                tooltip.setVisible(false);
 	            }
 	        }
-	        
+	               
 	    });
 	    
 	    map.getMainMap().addMouseListener(new MouseListener() {
@@ -125,6 +137,9 @@ public class ThingsMap {
 	                screenPos.x -= tooltip.getWidth() / 2;
 	
 	                //creation fenetre de grpahiques
+	                
+	                
+	                //GraphiquesScreen graphScr = new GraphiquesScreen();	                
 	            }
 	            else
 	            {
@@ -158,6 +173,7 @@ public class ThingsMap {
 			}
 	    	
 	    });
+	    return(gp);
 	}
 	
 	public void displayMap() {
@@ -168,23 +184,41 @@ public class ThingsMap {
 	    jXMapKit.setTileFactory(tileFactory);
 	    
 	    final GeoPosition mappos = new GeoPosition(48.2, -4); 
-	
+	    
+	    
+	    List<Waypoint> listWaypoints = new ArrayList<Waypoint>();
+	    
 	    //location of Java
 	    Iterator<Location> locIterator = locations.fullIterator();
 	    while(locIterator.hasNext()) {
 			Location loc = locIterator.next();
 		
-			createLocationToolTip(jXMapKit,loc);		    
-		} 
+			GeoPosition gp = createLocationToolTip(jXMapKit,loc);
+			
+			listWaypoints.add(new DefaultWaypoint(gp));
+			
+		}
+	    
+	    Set<Waypoint> waypoints = new HashSet<Waypoint>(listWaypoints);
+	    
+	    WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<Waypoint>();
+        waypointPainter.setWaypoints(waypoints);
+
+        // Create a compound painter that uses both the route-painter and the waypoint-painter
+        List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
+        painters.add(waypointPainter);
+
+        CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
+        jXMapKit.getMainMap().setOverlayPainter(painter);
 	    
 	
 	    jXMapKit.setZoom(11);
-	    
+	    jXMapKit.setAddressLocation(mappos);    
 	
 	    
 	
 	    // Display the viewer in a JFrame
-	    JFrame frame = new JFrame("JXMapviewer2 Example 6");
+	    JFrame frame = new JFrame("Locations Map");
 	    frame.getContentPane().add(jXMapKit);
 	    frame.setSize(800, 600);
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
