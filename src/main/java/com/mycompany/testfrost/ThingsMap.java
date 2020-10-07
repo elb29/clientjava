@@ -3,6 +3,7 @@ package com.mycompany.testfrost;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.util.Iterator;
@@ -64,6 +65,7 @@ public class ThingsMap {
 	    final LocationTooltip tooltip = new LocationTooltip(loc);
 	    tooltip.setTipText("oui");
 	    tooltip.setComponent(map.getMainMap());
+	    
 	    map.getMainMap().add(tooltip);
 	    
 	    map.getMainMap().addMouseMotionListener(new MouseMotionListener() {
@@ -99,7 +101,63 @@ public class ThingsMap {
 	                tooltip.setVisible(false);
 	            }
 	        }
-	    });		
+	        
+	    });
+	    
+	    map.getMainMap().addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JXMapViewer mapV = map.getMainMap();
+				
+	            // convert to world bitmap
+	            Point2D worldPos = mapV.getTileFactory().geoToPixel(gp, mapV.getZoom());
+	
+	            // convert to screen
+	            Rectangle rect = mapV.getViewportBounds();
+	            int sx = (int) worldPos.getX() - rect.x;
+	            int sy = (int) worldPos.getY() - rect.y;
+	            Point screenPos = new Point(sx, sy);
+	
+	            // check if near the mouse
+	            if (screenPos.distance(e.getPoint()) < 20)
+	            {
+	                screenPos.x -= tooltip.getWidth() / 2;
+	
+	                //creation fenetre de grpahiques
+	            }
+	            else
+	            {
+	                tooltip.setVisible(false);
+	            }
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+	    	
+	    });
 	}
 	
 	public void displayMap() {
@@ -115,13 +173,8 @@ public class ThingsMap {
 	    Iterator<Location> locIterator = locations.fullIterator();
 	    while(locIterator.hasNext()) {
 			Location loc = locIterator.next();
-			
-			
-			
-			//JsonObject jsonLoc = (JsonObject) objLoc;
-			
-			createLocationToolTip(jXMapKit,loc);
-		    
+		
+			createLocationToolTip(jXMapKit,loc);		    
 		} 
 	    
 	
