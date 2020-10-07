@@ -67,7 +67,6 @@ public class GraphiquesScreen {
         	Datastream datastream = iDs.next();
 
         	EntityList<Datastream> dsWithObs;
-        	System.out.println("donedddd");
             try {
             	dsWithObs = getConnection().getService().datastreams().query()
 														.filter("@iot.id eq '"+datastream.getId()+"'")
@@ -137,11 +136,7 @@ public class GraphiquesScreen {
 			i ++;
 		}
 		
-		//add data to chart	
-		//chart.addSeries(ds.getName(), new double[] { 0, 2, 4, 6, 9 }, new double[] { 0, 2, 4, 6, 9 });
-		
-		//double[] x = new double[] {};
-		//double[] y = new double[] {};
+		//add data to chart	: chart.addSeries(ds.getName(), new double[] { 0, 2, 4, 6, 9 }, new double[] { 0, 2, 4, 6, 9 });
 		
 		chart.addSeries(ds.getName(), xDate, yResult);
 		

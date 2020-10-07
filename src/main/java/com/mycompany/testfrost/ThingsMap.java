@@ -88,7 +88,7 @@ public class ThingsMap {
 	public GeoPosition createLocationToolTip(JXMapKit map, Location loc) {
 		Object location = loc.getLocation();
 		
-		System.out.println(location.toString());
+		System.out.println(location);
 		
 		final GeoPosition gp = new GeoPosition(ThreadLocalRandom.current().nextInt(-50,50), ThreadLocalRandom.current().nextInt(-50,50)); 
 		
