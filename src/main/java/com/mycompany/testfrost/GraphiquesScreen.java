@@ -128,10 +128,11 @@ public class GraphiquesScreen {
 			
 			Observation obs = iObs.next();
 			
+			//System.out.println(obs.getResultTime().getClass());
 		    //xDate.add(obs.getResultTime());
 			xDate.add(i);
-			//yResult.add((Double) obs.getResult());
-			yResult.add(ThreadLocalRandom.current().nextDouble(0,50));
+			yResult.add(Double.parseDouble((String) obs.getResult()));
+			//yResult.add(ThreadLocalRandom.current().nextDouble(0,50));
 			
 			i ++;
 		}
