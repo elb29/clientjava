@@ -48,7 +48,14 @@ public class Main {
     	validateButton.addActionListener(new ActionListener() { 
     		  public void actionPerformed(ActionEvent e) { 
     			    try {
-						Connection staConn = new Connection(urlText.getText());
+    			    	Connection staConn;
+    			    	
+    			    	if(urlText.getText().contains("examind") || urlText.getText().contains("Examind") ) {
+    			    		staConn = new ExamindConnection(urlText.getText());
+    			    	}
+    			    	else {
+    			    		staConn = new Connection(urlText.getText());
+    			    	}
 						
 						EntityList<Location> locations = staConn.getlastLocations();
 					
