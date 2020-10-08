@@ -161,7 +161,7 @@ public class ThingsMap {
 	                EntityList<Thing> things;
 	                try {
 						things = getConnection().getService().things().query()
-																.filter("@iot.id eq '"+tooltip.getLoc().getName()+"'")
+																.filter("name eq '"+tooltip.getLoc().getName()+"'")
 																.expand(Expansion.of(EntityType.THING)
 														                .with(ExpandedEntity.from(EntityType.DATASTREAMS)))
 																.list();
