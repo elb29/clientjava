@@ -104,7 +104,6 @@ public class GraphiquesScreen {
 	    frame.setVisible(true);
 	}
 	
-	@SuppressWarnings("deprecation")
 	public XYChart createChart(Datastream ds) {
 		
 			
