@@ -37,7 +37,7 @@ public class Main {
     	f.add(l1);
     	
     	
-    	JTextField urlText=new JTextField("http://visi-sxt-docker.ifremer.fr:8080/examind/WS/sts/sts_csv/");  
+    	JTextField urlText=new JTextField("http://visi-sxt-docker.ifremer.fr:8080/examind/WS/sts/sts_csv");  
         urlText.setBounds(130,100, 150,20); 
         f.add(urlText);
         

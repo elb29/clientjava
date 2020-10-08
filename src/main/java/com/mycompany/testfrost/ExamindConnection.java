@@ -13,6 +13,11 @@ public class ExamindConnection extends Connection {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public ExamindConnection() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public EntityList<Location> getlastLocations() throws ServiceFailureException{
 	    	EntityList<Location> lastLocations = getService().locations().query().list();   		    		    
 	    	

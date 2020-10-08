@@ -160,18 +160,30 @@ public class ThingsMap {
 	                
 	                EntityList<Thing> things;
 	                try {
-						things = getConnection().getService().things().query()
-																.filter("name eq '"+tooltip.getLoc().getName()+"'")
-																.expand(Expansion.of(EntityType.THING)
-														                .with(ExpandedEntity.from(EntityType.DATASTREAMS)))
-																.list();
+	                	
+	                	if(getConnection().getClass() ==  new ExamindConnection().getClass()) {
+	                		
+	                		things = getConnection().getService().things().query()
+													.filter("Thing/id eq '"+tooltip.getLoc().getName()+"'")
+													.expand(Expansion.of(EntityType.THING)
+															.with(ExpandedEntity.from(EntityType.DATASTREAMS)))
+													.list();
+	                	}
+	                	else {
+	                		things = getConnection().getService().things().query()
+													.filter("name eq '"+tooltip.getLoc().getName()+"'")
+													.expand(Expansion.of(EntityType.THING)
+															.with(ExpandedEntity.from(EntityType.DATASTREAMS)))
+													.list();
+	                	}
+	                	
+	                	Iterator<Thing> iThg = things.fullIterator();
+
+                		while(iThg.hasNext()) {
+                		Thing thing = iThg.next();
+
+                		new GraphiquesScreen(thing,connection);
 						
-						Iterator<Thing> iThg = things.fullIterator();
-		                
-		                while(iThg.hasNext()) {
-		                	Thing thing = iThg.next();
-		                	
-		                	new GraphiquesScreen(thing,connection);
 		                }
 		                	                
 		                

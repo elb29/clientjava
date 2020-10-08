@@ -65,7 +65,11 @@ public class Connection {
      
     }
     
-    public EntityList<Location> getlastLocations() throws ServiceFailureException, InvalidRelationException{
+    public Connection() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public EntityList<Location> getlastLocations() throws ServiceFailureException, InvalidRelationException{
     	EntityList<Thing> allthings = getService().things().query().expand(Expansion.of(EntityType.THING)
                 													.with(ExpandedEntity.from(EntityType.LOCATIONS))).list();
     	
