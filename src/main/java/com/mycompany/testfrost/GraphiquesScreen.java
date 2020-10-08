@@ -1,7 +1,9 @@
 package com.mycompany.testfrost;
 
 import java.awt.BorderLayout;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -102,6 +104,7 @@ public class GraphiquesScreen {
 	    frame.setVisible(true);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public XYChart createChart(Datastream ds) {
 		
 			
@@ -112,7 +115,7 @@ public class GraphiquesScreen {
 		chart.getStyler().setLegendPosition(LegendPosition.InsideNE);
 		//chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);
 		
-		List<Double> xDate = new ArrayList<Double>();
+		List<Date> xDate = new ArrayList<Date>();
 		List<Double> yResult = new ArrayList<Double>();
 		
 		
@@ -121,20 +124,19 @@ public class GraphiquesScreen {
 		EntityList<Observation> observations = ds.getObservations();
 		
 		Iterator<Observation> iObs = observations.fullIterator();
-		double i = 0;
+		
 		
 		
 		while(iObs.hasNext()) {			
 			
 			Observation obs = iObs.next();
 			
-			//System.out.println(obs.getResultTime().getClass());
-		    //xDate.add(obs.getResultTime());
-			xDate.add(i);
-			yResult.add(Double.parseDouble((String) obs.getResult()));
-			//yResult.add(ThreadLocalRandom.current().nextDouble(0,50));
+			ZonedDateTime d = obs.getResultTime();
 			
-			i ++;
+		    //xDate.add(new Date(d.getYear(),d.getMonthValue(),d.getDayOfMonth(),d.getHour(),d.getMinute(),d.getSecond()));
+			xDate.add(Date.from(d.toInstant()));
+			
+			yResult.add(Double.parseDouble((String) obs.getResult()));
 		}
 		
 		//add data to chart	: chart.addSeries(ds.getName(), new double[] { 0, 2, 4, 6, 9 }, new double[] { 0, 2, 4, 6, 9 });
