@@ -7,14 +7,13 @@ package com.mycompany.testfrost;
 
 import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
 import de.fraunhofer.iosb.ilt.sta.model.Location;
-import de.fraunhofer.iosb.ilt.sta.model.Thing;
 import de.fraunhofer.iosb.ilt.sta.model.ext.EntityList;
 import de.fraunhofer.iosb.ilt.sta.query.InvalidRelationException;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
-import java.util.Iterator;
+
 
 import javax.swing.*;
 /**
@@ -59,7 +58,7 @@ public class Main {
 						
 						EntityList<Location> locations = staConn.getlastLocations();
 					
-						ThingsMap map = new ThingsMap(locations,staConn);						
+						new ThingsMap(locations,staConn);						
 						
 				    } catch (MalformedURLException | ServiceFailureException | InvalidRelationException e1) {
 						// TODO Auto-generated catch block

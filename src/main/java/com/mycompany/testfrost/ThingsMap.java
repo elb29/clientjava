@@ -14,13 +14,12 @@ import java.util.Set;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.concurrent.ThreadLocalRandom;
+
 
 import javax.swing.JFrame;
-import javax.swing.JToolTip;
+
 
 import org.geojson.Feature;
-import org.geojson.GeoJsonObject;
 import org.jxmapviewer.JXMapKit;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
@@ -33,10 +32,8 @@ import org.jxmapviewer.viewer.WaypointPainter;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
 
-import com.google.gson.JsonObject;
 
 import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
-import de.fraunhofer.iosb.ilt.sta.model.Datastream;
 import de.fraunhofer.iosb.ilt.sta.model.EntityType;
 import de.fraunhofer.iosb.ilt.sta.model.Location;
 import de.fraunhofer.iosb.ilt.sta.model.Thing;
@@ -164,7 +161,7 @@ public class ThingsMap {
 	                EntityList<Thing> things;
 	                try {
 						things = getConnection().getService().things().query()
-																.filter("@iot.id eq '"+loc.getName()+"'")
+																.filter("@iot.id eq '"+tooltip.getLoc().getName()+"'")
 																.expand(Expansion.of(EntityType.THING)
 														                .with(ExpandedEntity.from(EntityType.DATASTREAMS)))
 																.list();
@@ -174,7 +171,7 @@ public class ThingsMap {
 		                while(iThg.hasNext()) {
 		                	Thing thing = iThg.next();
 		                	
-		                	GraphiquesScreen graphScr = new GraphiquesScreen(thing,connection);
+		                	new GraphiquesScreen(thing,connection);
 		                }
 		                	                
 		                

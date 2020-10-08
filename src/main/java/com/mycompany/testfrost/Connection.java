@@ -16,22 +16,12 @@ import de.fraunhofer.iosb.ilt.sta.query.Expansion;
 import de.fraunhofer.iosb.ilt.sta.query.InvalidRelationException;
 import de.fraunhofer.iosb.ilt.sta.service.SensorThingsService;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-import java.awt.geom.Point2D;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*; 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.JFrame;
-import javax.swing.JToolTip;
-
-import org.jxmapviewer.*;
-import org.jxmapviewer.viewer.*;
 
 
 /**

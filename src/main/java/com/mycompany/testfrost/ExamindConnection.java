@@ -1,12 +1,9 @@
 package com.mycompany.testfrost;
 
 import java.net.MalformedURLException;
-import java.util.Iterator;
 
 import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
-import de.fraunhofer.iosb.ilt.sta.model.EntityType;
 import de.fraunhofer.iosb.ilt.sta.model.Location;
-import de.fraunhofer.iosb.ilt.sta.model.Thing;
 import de.fraunhofer.iosb.ilt.sta.model.ext.EntityList;
 
 public class ExamindConnection extends Connection {
@@ -22,5 +19,4 @@ public class ExamindConnection extends Connection {
 	    	return lastLocations;
 	    }
 	    
-
 }
