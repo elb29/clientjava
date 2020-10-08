@@ -11,6 +11,9 @@ import de.fraunhofer.iosb.ilt.sta.model.EntityType;
 import de.fraunhofer.iosb.ilt.sta.model.Location;
 import de.fraunhofer.iosb.ilt.sta.model.Thing;
 import de.fraunhofer.iosb.ilt.sta.model.ext.EntityList;
+import de.fraunhofer.iosb.ilt.sta.query.ExpandedEntity;
+import de.fraunhofer.iosb.ilt.sta.query.Expansion;
+import de.fraunhofer.iosb.ilt.sta.query.InvalidRelationException;
 import de.fraunhofer.iosb.ilt.sta.service.SensorThingsService;
 
 import java.awt.Point;
@@ -72,8 +75,9 @@ public class Connection {
      
     }
     
-    public EntityList<Location> getlastLocations() throws ServiceFailureException{
-    	EntityList<Thing> allthings = service.things().query().list();
+    public EntityList<Location> getlastLocations() throws ServiceFailureException, InvalidRelationException{
+    	EntityList<Thing> allthings = getService().things().query().expand(Expansion.of(EntityType.THING)
+                													.with(ExpandedEntity.from(EntityType.LOCATIONS))).list();
     	
     	EntityList<Location> lastLocations = new EntityList<Location>(EntityType.LOCATION);
     	
@@ -81,7 +85,7 @@ public class Connection {
 		while (iThings.hasNext()) {
 		    Thing selectedThing = iThings.next();
 		    
-		    EntityList<Location> thingLoc = selectedThing.locations().query().list();
+		    EntityList<Location> thingLoc = selectedThing.getLocations();
 		    		    		    
 		    Iterator<Location> locations = thingLoc.fullIterator();
 		    
@@ -90,7 +94,6 @@ public class Connection {
 		    	
 		    	lastLocations.add(lastLoc);
 		    }
-		    
 		}
     	
     	return lastLocations;

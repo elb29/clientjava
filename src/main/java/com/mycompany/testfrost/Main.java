@@ -9,6 +9,7 @@ import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
 import de.fraunhofer.iosb.ilt.sta.model.Location;
 import de.fraunhofer.iosb.ilt.sta.model.Thing;
 import de.fraunhofer.iosb.ilt.sta.model.ext.EntityList;
+import de.fraunhofer.iosb.ilt.sta.query.InvalidRelationException;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,7 +38,7 @@ public class Main {
     	f.add(l1);
     	
     	
-    	JTextField urlText=new JTextField("http://visi-sxt-docker.ifremer.fr:8181/FROST-Server/v1.0");  
+    	JTextField urlText=new JTextField("http://visi-sxt-docker.ifremer.fr:8080/examind/WS/sts/sts_csv/");  
         urlText.setBounds(130,100, 150,20); 
         f.add(urlText);
         
@@ -53,7 +54,7 @@ public class Main {
 					
 						ThingsMap map = new ThingsMap(locations,staConn);						
 						
-				    } catch (MalformedURLException | ServiceFailureException e1) {
+				    } catch (MalformedURLException | ServiceFailureException | InvalidRelationException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
