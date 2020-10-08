@@ -1,6 +1,7 @@
 package com.mycompany.testfrost;
 
 
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -18,6 +19,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JFrame;
 import javax.swing.JToolTip;
 
+import org.geojson.Feature;
+import org.geojson.GeoJsonObject;
 import org.jxmapviewer.JXMapKit;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
@@ -86,11 +89,10 @@ public class ThingsMap {
 	
 	
 	public GeoPosition createLocationToolTip(JXMapKit map, Location loc) {
-		Object location = loc.getLocation();
+		Feature location = (Feature) loc.getLocation();
+		org.geojson.Point coord = (org.geojson.Point) location.getGeometry();
 		
-		System.out.println(location);
-		
-		final GeoPosition gp = new GeoPosition(ThreadLocalRandom.current().nextInt(-50,50), ThreadLocalRandom.current().nextInt(-50,50)); 
+		final GeoPosition gp = new GeoPosition(coord.getCoordinates().getLatitude(), coord.getCoordinates().getLongitude()); 
 		
 			
 	    final LocationTooltip tooltip = new LocationTooltip(loc);
