@@ -1,6 +1,7 @@
 package Examind;
 
 import java.math.BigDecimal;
+import java.util.Iterator;
 
 import com.mycompany.testfrost.Connection;
 import com.mycompany.testfrost.GraphiquesScreen;
@@ -31,6 +32,14 @@ public class ExamindGraphiquesScreen extends GraphiquesScreen {
 														.with(ExpandedEntity.from(EntityType.OBSERVED_PROPERTY)))
 												.list();	
 		
+		Iterator<Datastream> iD = dsWithObs.fullIterator();
+
+ 		while(iD.hasNext()) {
+ 			Datastream ds = iD.next();
+
+ 			ds.setName(ds.getObservedProperty().getName());
+			
+        }
 		// TODO Auto-generated method stub
 		return dsWithObs;
 	}

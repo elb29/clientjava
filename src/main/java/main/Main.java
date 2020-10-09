@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.testfrost;
+package main;
 
 import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
 import de.fraunhofer.iosb.ilt.sta.model.Location;
@@ -16,6 +16,8 @@ import java.net.MalformedURLException;
 
 
 import javax.swing.*;
+
+import com.mycompany.testfrost.Connection;
 
 import Examind.ExamindConnection;
 /**

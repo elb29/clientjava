@@ -15,7 +15,6 @@ import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.style.Styler.LegendPosition;
 
-import Examind.ExamindConnection;
 import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
 import de.fraunhofer.iosb.ilt.sta.model.Datastream;
 import de.fraunhofer.iosb.ilt.sta.model.EntityType;
@@ -140,11 +139,6 @@ public class GraphiquesScreen {
 		}
 		
 		//add data to chart	: chart.addSeries(ds.getName(), new double[] { 0, 2, 4, 6, 9 }, new double[] { 0, 2, 4, 6, 9 });
-		
-		
-		if(getConnection().getClass() ==  new ExamindConnection().getClass()) {
-			ds.setName(ds.getObservedProperty().getName());
-		}
 		
 		chart.addSeries(ds.getName(), xDate, yResult);
 		
