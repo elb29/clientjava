@@ -164,7 +164,7 @@ public class ThingsMap {
 	                	if(getConnection().getClass() ==  new ExamindConnection().getClass()) {
 	                		
 	                		things = getConnection().getService().things().query()
-													.filter("Thing/id eq '"+tooltip.getLoc().getName()+"'")
+													.filter("Thing/id eq "+tooltip.getLoc().getName()+"")
 													.expand(Expansion.of(EntityType.THING)
 															.with(ExpandedEntity.from(EntityType.DATASTREAMS)))
 													.list();

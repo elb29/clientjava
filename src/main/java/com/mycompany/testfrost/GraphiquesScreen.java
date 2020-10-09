@@ -1,6 +1,7 @@
 package com.mycompany.testfrost;
 
 import java.awt.BorderLayout;
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,11 +70,24 @@ public class GraphiquesScreen {
 
         	EntityList<Datastream> dsWithObs;
             try {
-            	dsWithObs = getConnection().getService().datastreams().query()
+            	
+            	if(getConnection().getClass() ==  new ExamindConnection().getClass()) {
+            		dsWithObs = getConnection().getService().datastreams().query()
+							.filter("Datastream/id eq "+datastream.getId()+"")
+							.expand(Expansion.of(EntityType.DATASTREAMS)
+					                .with(ExpandedEntity.from(EntityType.OBSERVATIONS))
+					                .with(ExpandedEntity.from(EntityType.OBSERVED_PROPERTY)))
+							.list();
+            	}
+            	else {
+            		
+            	
+            		dsWithObs = getConnection().getService().datastreams().query()
 														.filter("@iot.id eq '"+datastream.getId()+"'")
 														.expand(Expansion.of(EntityType.DATASTREAMS)
 												                .with(ExpandedEntity.from(EntityType.OBSERVATIONS)))
 														.list();
+            	}
 				
             	
 				Iterator<Datastream> iDSWithObs = dsWithObs.fullIterator();
@@ -103,7 +117,7 @@ public class GraphiquesScreen {
 	    frame.setVisible(true);
 	}
 	
-	public XYChart createChart(Datastream ds) {
+	public XYChart createChart(Datastream ds) throws ServiceFailureException {
 		
 			
 		// Create Chart
@@ -134,10 +148,22 @@ public class GraphiquesScreen {
 		    //xDate.add(new Date(d.getYear(),d.getMonthValue(),d.getDayOfMonth(),d.getHour(),d.getMinute(),d.getSecond()));
 			xDate.add(Date.from(d.toInstant()));
 			
-			yResult.add(Double.parseDouble((String) obs.getResult()));
+			
+			if(getConnection().getClass() ==  new ExamindConnection().getClass()) {
+				yResult.add(((BigDecimal) obs.getResult()).doubleValue());
+			}
+			else {
+				yResult.add(Double.parseDouble((String) obs.getResult()));
+			}
+			
 		}
 		
 		//add data to chart	: chart.addSeries(ds.getName(), new double[] { 0, 2, 4, 6, 9 }, new double[] { 0, 2, 4, 6, 9 });
+		
+		
+		if(getConnection().getClass() ==  new ExamindConnection().getClass()) {
+			ds.setName(ds.getObservedProperty().getName());
+		}
 		
 		chart.addSeries(ds.getName(), xDate, yResult);
 		
