@@ -29,6 +29,7 @@ import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.DefaultWaypoint;
 import org.jxmapviewer.viewer.Waypoint;
 import org.jxmapviewer.viewer.WaypointPainter;
+
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
 
@@ -152,46 +153,8 @@ public class ThingsMap {
 	            // check if near the mouse
 	            if (screenPos.distance(e.getPoint()) < 20)
 	            {
-	                screenPos.x -= tooltip.getWidth() / 2;
-	
-	                //creation fenetre de graphiques
-	                
-	                
-	                
-	                EntityList<Thing> things;
-	                try {
-	                	
-	                	if(getConnection().getClass() ==  new ExamindConnection().getClass()) {
-	                		
-	                		things = getConnection().getService().things().query()
-													.filter("Thing/id eq "+tooltip.getLoc().getName()+"")
-													.expand(Expansion.of(EntityType.THING)
-															.with(ExpandedEntity.from(EntityType.DATASTREAMS)))
-													.list();
-	                	}
-	                	else {
-	                		things = getConnection().getService().things().query()
-													.filter("name eq '"+tooltip.getLoc().getName()+"'")
-													.expand(Expansion.of(EntityType.THING)
-															.with(ExpandedEntity.from(EntityType.DATASTREAMS)))
-													.list();
-	                	}
-	                	
-	                	Iterator<Thing> iThg = things.fullIterator();
-
-                		while(iThg.hasNext()) {
-                		Thing thing = iThg.next();
-
-                		new GraphiquesScreen(thing,connection);
-						
-		                }
-		                	                
-		                
-					} catch (ServiceFailureException | InvalidRelationException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-	                                
+	            	screenPos.x -= tooltip.getWidth() / 2;
+	            	builderGraphiquesScreen(tooltip);
 	            }
 	            else
 	            {
@@ -228,6 +191,34 @@ public class ThingsMap {
 	    return(gp);
 	}
 	
+	protected void builderGraphiquesScreen(LocationTooltip tooltip) {
+         //creation fenetre de graphiques       
+         
+         EntityList<Thing> things;
+         try {
+      		things = getConnection().getService().things().query()
+											.filter("name eq '"+tooltip.getLoc().getName()+"'")
+											.expand(Expansion.of(EntityType.THING)
+													.with(ExpandedEntity.from(EntityType.DATASTREAMS)))
+											.list();
+         	
+         	Iterator<Thing> iThg = things.fullIterator();
+
+     		while(iThg.hasNext()) {
+     			Thing thing = iThg.next();
+
+     			new GraphiquesScreen(thing,connection);
+				
+            }
+             	                
+             
+			} catch (ServiceFailureException | InvalidRelationException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	}
+
+
 	public void displayMap() {
 		
 		final JXMapKit jXMapKit = new JXMapKit();

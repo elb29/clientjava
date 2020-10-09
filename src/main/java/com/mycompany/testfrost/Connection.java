@@ -92,6 +92,10 @@ public class Connection {
     	
     	return lastLocations;
     }
+	
+	public void builderMap(EntityList<Location> locations) {
+		new ThingsMap(locations,this);
+	}
     	
     
 }

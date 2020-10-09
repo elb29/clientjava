@@ -1,6 +1,8 @@
-package com.mycompany.testfrost;
+package Examind;
 
 import java.net.MalformedURLException;
+
+import com.mycompany.testfrost.Connection;
 
 import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
 import de.fraunhofer.iosb.ilt.sta.model.Location;
@@ -23,5 +25,9 @@ public class ExamindConnection extends Connection {
 	    	
 	    	return lastLocations;
 	    }
+	
+	public void builderMap(EntityList<Location> locations) {
+		new ExamindThingsMap(locations,this);
+	}
 	    
 }

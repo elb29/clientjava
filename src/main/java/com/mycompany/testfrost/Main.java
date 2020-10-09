@@ -16,6 +16,8 @@ import java.net.MalformedURLException;
 
 
 import javax.swing.*;
+
+import Examind.ExamindConnection;
 /**
  *
  * @author elebihan
@@ -57,8 +59,8 @@ public class Main {
     			    	}
 						
 						EntityList<Location> locations = staConn.getlastLocations();
-					
-						new ThingsMap(locations,staConn);						
+						
+						staConn.builderMap(locations);
 						
 				    } catch (MalformedURLException | ServiceFailureException | InvalidRelationException e1) {
 						// TODO Auto-generated catch block

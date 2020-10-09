@@ -1,7 +1,6 @@
 package com.mycompany.testfrost;
 
 import java.awt.BorderLayout;
-import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,8 +15,7 @@ import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.style.Styler.LegendPosition;
 
-
-
+import Examind.ExamindConnection;
 import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
 import de.fraunhofer.iosb.ilt.sta.model.Datastream;
 import de.fraunhofer.iosb.ilt.sta.model.EntityType;
@@ -70,25 +68,8 @@ public class GraphiquesScreen {
 
         	EntityList<Datastream> dsWithObs;
             try {
-            	
-            	if(getConnection().getClass() ==  new ExamindConnection().getClass()) {
-            		dsWithObs = getConnection().getService().datastreams().query()
-							.filter("Datastream/id eq "+datastream.getId()+"")
-							.expand(Expansion.of(EntityType.DATASTREAMS)
-					                .with(ExpandedEntity.from(EntityType.OBSERVATIONS))
-					                .with(ExpandedEntity.from(EntityType.OBSERVED_PROPERTY)))
-							.list();
-            	}
-            	else {
-            		
-            	
-            		dsWithObs = getConnection().getService().datastreams().query()
-														.filter("@iot.id eq '"+datastream.getId()+"'")
-														.expand(Expansion.of(EntityType.DATASTREAMS)
-												                .with(ExpandedEntity.from(EntityType.OBSERVATIONS)))
-														.list();
-            	}
-				
+            	     	
+            	dsWithObs = this.requestDSwithData(datastream); 			
             	
 				Iterator<Datastream> iDSWithObs = dsWithObs.fullIterator();
                 
@@ -111,12 +92,22 @@ public class GraphiquesScreen {
         	
         	
         }		
-		
-		
 	    frame.setSize(800, 600);
 	    frame.setVisible(true);
 	}
 	
+	protected EntityList<Datastream> requestDSwithData(Datastream datastream) throws ServiceFailureException, InvalidRelationException {
+		
+    	EntityList<Datastream>	dsWithObs = getConnection().getService().datastreams().query()
+												.filter("@iot.id eq '"+datastream.getId()+"'")
+												.expand(Expansion.of(EntityType.DATASTREAMS)
+										                .with(ExpandedEntity.from(EntityType.OBSERVATIONS)))
+												.list();		
+		
+		// TODO Auto-generated method stub
+		return dsWithObs;
+	}
+
 	public XYChart createChart(Datastream ds) throws ServiceFailureException {
 		
 			
@@ -129,16 +120,11 @@ public class GraphiquesScreen {
 		
 		List<Date> xDate = new ArrayList<Date>();
 		List<Double> yResult = new ArrayList<Double>();
-		
-		
-		
-		
+				
 		EntityList<Observation> observations = ds.getObservations();
 		
 		Iterator<Observation> iObs = observations.fullIterator();
-		
-		
-		
+			
 		while(iObs.hasNext()) {			
 			
 			Observation obs = iObs.next();
@@ -149,12 +135,7 @@ public class GraphiquesScreen {
 			xDate.add(Date.from(d.toInstant()));
 			
 			
-			if(getConnection().getClass() ==  new ExamindConnection().getClass()) {
-				yResult.add(((BigDecimal) obs.getResult()).doubleValue());
-			}
-			else {
-				yResult.add(Double.parseDouble((String) obs.getResult()));
-			}
+			yResult.add(extractMesureResult(obs));
 			
 		}
 		
@@ -168,6 +149,14 @@ public class GraphiquesScreen {
 		chart.addSeries(ds.getName(), xDate, yResult);
 		
 		return chart;
+	}
+
+	protected Double extractMesureResult(Observation obs) {
+		
+		Double result = Double.parseDouble((String) obs.getResult());
+		
+		// TODO Auto-generated method stub
+		return result;
 	}
 
 }
