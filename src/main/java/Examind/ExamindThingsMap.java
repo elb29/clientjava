@@ -1,5 +1,6 @@
 package Examind;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 import com.mycompany.testfrost.Connection;
@@ -41,6 +42,13 @@ public class ExamindThingsMap extends ThingsMap {
 
 	     		while(iThg.hasNext()) {
 	     			Thing thing = iThg.next();
+	     			
+	     			HashMap prop = (HashMap) thing.getProperties();
+	     			
+	     			if(prop.get("type")=="profile") {
+	     				
+	     			}
+	     			
 	     			
 	     			EntityList<Datastream> ds = thing.getDatastreams();
 	     			
