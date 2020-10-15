@@ -35,6 +35,7 @@ import org.jxmapviewer.viewer.TileFactoryInfo;
 
 
 import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
+import de.fraunhofer.iosb.ilt.sta.model.Datastream;
 import de.fraunhofer.iosb.ilt.sta.model.EntityType;
 import de.fraunhofer.iosb.ilt.sta.model.Location;
 import de.fraunhofer.iosb.ilt.sta.model.Thing;
@@ -205,7 +206,7 @@ public class ThingsMap {
          	Iterator<Thing> iThg = things.fullIterator();
 
      		while(iThg.hasNext()) {
-     			Thing thing = iThg.next();
+     			Thing thing = iThg.next();   			
 
      			new GraphiquesScreen(thing,connection);
 				

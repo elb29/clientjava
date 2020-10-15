@@ -1,6 +1,6 @@
 package com.mycompany.testfrost;
 
-import java.awt.BorderLayout;
+
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +29,7 @@ public class GraphiquesScreen {
 	
 	private Thing thing;
 	private Connection connection;
+	private Datastream datast;
 
 	public GraphiquesScreen(Thing t, Connection c) {
 		// TODO Auto-generated constructor stub
@@ -63,7 +64,7 @@ public class GraphiquesScreen {
 		Iterator<Datastream> iDs = ds.fullIterator();
         
         while(iDs.hasNext()) {
-        	Datastream datastream = iDs.next();
+        	Datastream datastream = iDs.next(); 
 
         	EntityList<Datastream> dsWithObs;
             try {
@@ -77,17 +78,17 @@ public class GraphiquesScreen {
                 	Datastream dsObs = iDSWithObs.next();
                 	
                 	final XYChart chart = createChart(dsObs);
-                	
+               
                 	JPanel chartPanel = new XChartPanel<XYChart>(chart);
-                    frame.add(chartPanel, BorderLayout.CENTER);
+                    frame.add(chartPanel);
                 }
+                
                 	                
                 
 			} catch (ServiceFailureException | InvalidRelationException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-        	
         	
         	
         }		
@@ -145,12 +146,22 @@ public class GraphiquesScreen {
 		return chart;
 	}
 
+	
+	
 	protected Double extractMesureResult(Observation obs) {
 		
 		Double result = Double.parseDouble((String) obs.getResult());
 		
 		// TODO Auto-generated method stub
 		return result;
+	}
+
+	public Datastream getDatast() {
+		return datast;
+	}
+
+	public void setDatast(Datastream datast) {
+		this.datast = datast;
 	}
 
 }

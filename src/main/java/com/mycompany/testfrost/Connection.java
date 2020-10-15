@@ -29,6 +29,10 @@ import java.util.logging.Logger;
  * @author elebihan
  */
 public class Connection {
+	
+	/**
+	 * La classe connection permet la connection au server STA
+	 */
     
 	private URL url ;
     private SensorThingsService service;
