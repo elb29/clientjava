@@ -18,8 +18,8 @@ import de.fraunhofer.iosb.ilt.sta.query.InvalidRelationException;
 
 public class ExamindGraphiquesScreen extends GraphiquesScreen {
 
-	public ExamindGraphiquesScreen(Thing t, Connection c) {
-		super(t, c);
+	public ExamindGraphiquesScreen(Thing t, Connection c, Datastream d) {
+		super(t, c, d);
 		// TODO Auto-generated constructor stub
 	}
 	

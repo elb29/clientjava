@@ -7,6 +7,7 @@ import com.mycompany.testfrost.LocationTooltip;
 import com.mycompany.testfrost.ThingsMap;
 
 import de.fraunhofer.iosb.ilt.sta.ServiceFailureException;
+import de.fraunhofer.iosb.ilt.sta.model.Datastream;
 import de.fraunhofer.iosb.ilt.sta.model.EntityType;
 import de.fraunhofer.iosb.ilt.sta.model.Location;
 import de.fraunhofer.iosb.ilt.sta.model.Thing;
@@ -40,8 +41,15 @@ public class ExamindThingsMap extends ThingsMap {
 
 	     		while(iThg.hasNext()) {
 	     			Thing thing = iThg.next();
-
-	     			new ExamindGraphiquesScreen(thing,getConnection());
+	     			
+	     			EntityList<Datastream> ds = thing.getDatastreams();
+	     			
+	     			Iterator<Datastream> d = ds.fullIterator();
+	     			
+	     			while(d.hasNext()) {
+	     				Datastream data = d.next();
+	     				new ExamindGraphiquesScreen(thing,getConnection(),data);
+	     			}
 					
 	            }
 	             	                

@@ -31,10 +31,11 @@ public class GraphiquesScreen {
 	private Connection connection;
 	private Datastream datast;
 
-	public GraphiquesScreen(Thing t, Connection c) {
+	public GraphiquesScreen(Thing t, Connection c, Datastream d) {
 		// TODO Auto-generated constructor stub
 		thing = t;
 		connection = c;
+		datast = d;
 		
 		displayGraph();
 	}
@@ -57,19 +58,19 @@ public class GraphiquesScreen {
 
 	public void displayGraph() {
 		// Display a JFrame
-		JFrame frame = new JFrame("Data from the Thing : " + thing.getName());
+		JFrame frame = new JFrame("Data from the Thing :" + thing.getName());
 		
-		EntityList<Datastream> ds = thing.getDatastreams();
+		//EntityList<Datastream> ds = thing.getDatastreams();
 		
-		Iterator<Datastream> iDs = ds.fullIterator();
+		//Iterator<Datastream> iDs = ds.fullIterator();
         
-        while(iDs.hasNext()) {
-        	Datastream datastream = iDs.next(); 
+        //while(iDs.hasNext()) {
+        	//Datastream datastream = iDs.next(); 
 
         	EntityList<Datastream> dsWithObs;
             try {
             	     	
-            	dsWithObs = this.requestDSwithData(datastream); 			
+            	dsWithObs = this.requestDSwithData(datast); 			
             	
 				Iterator<Datastream> iDSWithObs = dsWithObs.fullIterator();
                 
@@ -91,7 +92,7 @@ public class GraphiquesScreen {
 			}
         	
         	
-        }		
+        //}		
 	    frame.setSize(800, 600);
 	    frame.setVisible(true);
 	}

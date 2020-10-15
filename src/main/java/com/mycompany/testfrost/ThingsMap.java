@@ -206,9 +206,16 @@ public class ThingsMap {
          	Iterator<Thing> iThg = things.fullIterator();
 
      		while(iThg.hasNext()) {
-     			Thing thing = iThg.next();   			
+     			Thing thing = iThg.next();
 
-     			new GraphiquesScreen(thing,connection);
+     			EntityList<Datastream> ds = thing.getDatastreams();
+     			
+     			Iterator<Datastream> d = ds.fullIterator();
+     			
+     			while(d.hasNext()) {
+     				Datastream data = d.next();
+     				new GraphiquesScreen(thing,connection,data);
+     			}
 				
             }
              	                
